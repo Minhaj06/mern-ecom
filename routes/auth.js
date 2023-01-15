@@ -1,13 +1,11 @@
 const express = require("express");
-const { register } = require("../controllers/auth");
-
 const router = express.Router();
 
 // Middlewares
-const { requireSignin, isAdmin } = require("../middlewares/auth");
+const { requireSignin, isAdmin } = require("../middlewares/auth.js");
 
 // Controllers
-const { register, login } = require("../controllers/auth.js");
+const { register, login, updateProfile, secret } = require("../controllers/auth.js");
 
 // Routes
 router.post("/register", register);
@@ -18,3 +16,10 @@ router.get("/auth-check", requireSignin, (req, res) => {
 router.get("admin-check", requireSignin, isAdmin, (req, res) => {
   res.json({ ok: true });
 });
+
+router.put("/profile", requireSignin, updateProfile);
+
+// Testing Route
+router.get("/secret", requireSignin, isAdmin, secret);
+
+module.exports = router;
