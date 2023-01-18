@@ -1,4 +1,5 @@
 const User = require("../models/user.js");
+const Order = require("../models/order.js");
 const { hashPassword, comparePassword } = require("../helpers/auth.js");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
@@ -132,6 +133,21 @@ exports.updateProfile = async (req, res) => {
 
     updated.password = undefined;
     res.json(updated);
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+exports.getOrders = async (req, res) => {
+  try {
+    const orders = await Order.find({ buyer: req.user._id });
+    /***/
+    /***/
+    /***/
+    /***/
+    /***/
+    /***/
+    /***/
   } catch (err) {
     console.log(err);
   }
