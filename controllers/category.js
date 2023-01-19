@@ -48,3 +48,47 @@ exports.update = async (req, res) => {
     return res.status(400).json(err.message);
   }
 };
+
+exports.remove = async (req, res) => {
+  try {
+    const removed = await Category.findByIdAndDelete(req.params.categoryId);
+    res.json(removed);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json(err.message);
+  }
+};
+
+exports.list = async (req, res) => {
+  try {
+    const all = await Category.find({});
+    res.json(all);
+  } catch (err) {
+    console.log(err);
+    return res.status(400);
+  }
+};
+
+exports.read = async (req, res) => {
+  try {
+    const category = await Category.findOne({ slug: req.params.slug });
+    res.json(category);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json(err.message);
+  }
+};
+
+exports.productsByCategory = async (req, res) => {
+  try {
+    const category = await Category.findOne({ slug: req.params.slug });
+    const products = await Product.find({ category }).populate("category");
+
+    res.json({
+      category,
+      products,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
